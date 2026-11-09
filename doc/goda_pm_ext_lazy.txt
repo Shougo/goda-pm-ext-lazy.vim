@@ -1,0 +1,53 @@
+*goda_pm_ext_lazy.txt*	The lazy loading of goda-pm.vim
+
+Author: Shougo <Shougo.Matsu at gmail.com>
+License: MIT license
+
+CONTENTS                                            *goda-pm-ext-lazy-contents*
+
+Introduction		|goda-pm-ext-lazy-introduction|
+Install			|goda-pm-ext-lazy-install|
+Usage			|goda-pm-ext-lazy-usage|
+
+==============================================================================
+INTRODUCTION                                    *goda-pm-ext-lazy-introduction*
+
+                                                             *goda-pm-ext-lazy*
+The lazy loading of goda-pm.vim (|goda-pm|), as dpp-ext-lazy: the plugins
+with on_* keys (on_cmd, on_ft, on_map, on_event, on_func, on_lua, on_path,
+on_root, on_if, on_source, ...) are loaded when they are needed.
+
+==============================================================================
+INSTALL                                              *goda-pm-ext-lazy-install*
+
+It needs goda-pm.vim:
+
+https://github.com/Shougo/goda-pm.vim
+
+Its Vim script is called by the startup script of goda-pm.vim and when the
+state is made: it must be in 'runtimepath' (a plugin that is not lazy; when
+the state is made the first time, add it in your vimrc as goda.vim). >vim
+	if s:base->goda_pm#min#load_state()
+	  set runtimepath^=~/.cache/goda-pm/repos/github.com/Shougo/goda.vim
+	  set runtimepath^=~/.cache/goda-pm/repos/github.com/Shougo/goda-pm-ext-lazy.vim
+	  autocmd VimEnter * ++once call goda_pm#make_state(s:base)
+	endif
+<
+==============================================================================
+USAGE                                                  *goda-pm-ext-lazy-usage*
+
+lazy.MakeState() is a Go function of the configuration of goda-pm.vim
+(|goda-pm-configuration|): give it the plugins, and return what it gives. >go
+	import "github.com/Shougo/goda-pm-ext-lazy.vim/ext/lazy"
+
+	r, err := lazy.MakeState(ctx, c.Host, plugins)
+	if err != nil {
+		return nil, err
+	}
+	return &pm.ConfigReturn{
+		Plugins:    r.Plugins,
+		StateLines: r.StateLines,
+	}, nil
+<
+==============================================================================
+vim:tw=78:ts=8:noet:ft=help:norl:
