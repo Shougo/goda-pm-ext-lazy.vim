@@ -396,14 +396,8 @@ function! s:build_index() abort
       call add(idx.on_root, plugin)
     endif
 
-    " Precompute dummy commands and mappings
-    let dc = goda_pm#ext#lazy#_generate_dummy_commands(plugin)
-    let plugin.dummy_commands = dc.dummys
-    let plugin.dummy_command_state_lines = dc.stateLines
-
-    let dm = goda_pm#ext#lazy#_generate_dummy_mappings(plugin)
-    let plugin.dummy_mappings = dm.dummys
-    let plugin.dummy_mapping_state_lines = dm.stateLines
+    " (The dummy commands and mappings are in the state already: MakeState
+    " made them, and goda_pm#source() removes them.)
   endfor
 
   let g:goda_pm#ext#lazy#index = idx
